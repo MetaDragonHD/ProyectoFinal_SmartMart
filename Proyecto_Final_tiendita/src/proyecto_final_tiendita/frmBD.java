@@ -4,17 +4,53 @@
  */
 package proyecto_final_tiendita;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
+
 /**
  *
  * @author sergi
  */
 public class frmBD extends javax.swing.JFrame {
 
+    PreparedStatement pr = null;
+    ResultSet rs = null;
+    conexionBD BD = new conexionBD();
+    frmAgregar frmagregar = new frmAgregar();
+    frmEliminar frmeliminar = new frmEliminar();
     //frmPrincipal frmPrincipal = new frmPrincipal();
+    
     public frmBD() {
         initComponents();
+        updateTable();
+        
     }
-
+    
+    
+    private void updateTable(){
+        String sql = "SELECT * from inventario_smartmart";
+        try{
+             pr = BD.conectar.prepareStatement(sql);
+             rs = pr.executeQuery();
+             tblInventario.setModel(DbUtils.resultSetToTableModel(rs));
+             } catch(Exception e){
+                 JOptionPane.showMessageDialog(null, e);
+                 
+             }finally{
+            try{
+                rs.close();
+                pr.close();
+            }catch (Exception e){
+                
+            }
+        }
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -25,28 +61,77 @@ public class frmBD extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblInventario = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
         mnuPrincipal = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        itmAgregar = new javax.swing.JMenu();
+        itmEliminar = new javax.swing.JMenu();
+        mnuTres = new javax.swing.JMenu();
+        Agregar = new javax.swing.JMenu();
+        mnuSalir = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
-        jMenu1.setText("Exit");
-        jMenuBar1.add(jMenu1);
+        tblInventario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblInventario);
 
-        mnuPrincipal.setText("Menu");
+        mnuPrincipal.setText("Productos Actuales");
         mnuPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mnuPrincipalMouseClicked(evt);
             }
         });
+
+        itmAgregar.setText("Agregar");
+        itmAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itmAgregarMouseClicked(evt);
+            }
+        });
+        mnuPrincipal.add(itmAgregar);
+
+        itmEliminar.setText("Eliminar");
+        itmEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itmEliminarMouseClicked(evt);
+            }
+        });
+        mnuPrincipal.add(itmEliminar);
+
         jMenuBar1.add(mnuPrincipal);
 
-        jMenu3.setText("jMenu3");
-        jMenuBar1.add(jMenu3);
+        mnuTres.setText("Nuevos Productos");
+
+        Agregar.setText("jMenu1");
+        mnuTres.add(Agregar);
+
+        jMenuBar1.add(mnuTres);
+
+        mnuSalir.setText("Salir");
+        mnuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuSalirMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnuSalir);
 
         setJMenuBar(jMenuBar1);
 
@@ -54,19 +139,65 @@ public class frmBD extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 950, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 693, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(251, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuPrincipalMouseClicked
-        dispose();
+        
     }//GEN-LAST:event_mnuPrincipalMouseClicked
+
+    private void mnuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuSalirMouseClicked
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_mnuSalirMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        
+        tblInventario.setEnabled(false);
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void itmAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmAgregarMouseClicked
+        // TODO add your handling code here:
+        this.setEnabled(false);
+        frmagregar.setVisible(true);
+        
+        frmagregar.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+            // Volver a habilitar el formulario principal cuando se cierre el formulario secundario
+            frmBD.this.setEnabled(true);
+        }
+    });
+        
+    }//GEN-LAST:event_itmAgregarMouseClicked
+
+    private void itmEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmEliminarMouseClicked
+        this.setEnabled(false);
+        frmeliminar.setVisible(true);
+        
+        frmeliminar.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+            // Volver a habilitar el formulario principal cuando se cierre el formulario secundario
+            frmBD.this.setEnabled(true);
+        }
+    });
+    }//GEN-LAST:event_itmEliminarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -104,10 +235,15 @@ public class frmBD extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu Agregar;
+    private javax.swing.JMenu itmAgregar;
+    private javax.swing.JMenu itmEliminar;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu mnuPrincipal;
+    private javax.swing.JMenu mnuSalir;
+    private javax.swing.JMenu mnuTres;
+    private javax.swing.JTable tblInventario;
     // End of variables declaration//GEN-END:variables
 }

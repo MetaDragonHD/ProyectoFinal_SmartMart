@@ -35,7 +35,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         try {
             //Bloque de codigo del query------------------------------------------------------------------------------------------------------------//
             //Consulta de sql para recibir los datos----------------------------------------//                                                      //
-            String consulta = "SELECT nomProd,cant,precio FROM inventario WHERE cant >= 1"; //                                                      //
+            String consulta = "SELECT descripcion , inventario ,prc_costo FROM inventario_smartmart WHERE inventario >= 1"; //                                                      //
             PreparedStatement preparedStatement = BD.conectar.prepareStatement(consulta);   //                                                      //
             BD.resultado = preparedStatement.executeQuery();                                //                                                      //
             //------------------------------------------------------------------------------//                                                      //        
@@ -45,9 +45,9 @@ public class frmPrincipal extends javax.swing.JFrame {
             while (BD.resultado.next()) //  //
             {                                                                                                                                   //  //
                 //Este bloque de codigo sirve para poder leer y acomodar los datos.---------------------------------------------//              //  //
-                nombre = BD.resultado.getString("nomProd");                                                                     //              //  //
-                cantidad = BD.resultado.getString("cant");                                                                      //              //  //
-                String precio = BD.resultado.getString("precio");                                                               //              //  //
+                nombre = BD.resultado.getString("descripcion");                                                                     //              //  //
+                cantidad = BD.resultado.getString("inventario");                                                                      //              //  //
+                String precio = BD.resultado.getString("prc_Costo");                                                               //              //  //
                 datos.append(nombre).append("\t").append(" - ").append(cantidad).append(" :  $").append(precio).append("\n");   //              //  //  \t es para para poner un "TAB".
                 //--------------------------------------------------------------------------------------------------------------//              //  //  \N es para saltar una linea.
             }                                                                                                                                   //  //
@@ -70,7 +70,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         try {
             //Bloque de codigo del query------------------------------------------------------------------------------------------------------------//
             //Consulta de sql para recibir los datos----------------------------------------//                                                      //
-            String consulta = "SELECT cant FROM inventario WHERE nomProd = '" + compName + "'"; //                                                      //
+            String consulta = "SELECT inventario FROM inventario_smartmart WHERE descripcion = '" + compName + "'"; //                                                      //
             PreparedStatement preparedStatement = BD.conectar.prepareStatement(consulta);   //                                                      //
             BD.resultado = preparedStatement.executeQuery();                                //                                                      //
             //------------------------------------------------------------------------------//                                                      //        
@@ -80,7 +80,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             while (BD.resultado.next()) //  //
             {                                                                                                                                   //  //
                 //Este bloque de codigo sirve para poder leer y acomodar los datos.---------------------------------------------//              //  //
-                cantidad = BD.resultado.getString("cant");                                                                      //              //  //
+                cantidad = BD.resultado.getString("inventario");                                                                      //              //  //
                 //--------------------------------------------------------------------------------------------------------------//              //  //  \N es para saltar una linea.
             }                                                                                                                                   //  //
             //----------------------------------------------------------------------------------------------------------------------------------//  //
@@ -104,7 +104,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         try //
         {                                                                                                                                                                                   //
             //Bloque de codigo del Update-------------------------------------------------------------------//                                                                              //
-            String editar = "UPDATE inventario SET cant = cant - 1 WHERE nomProd = '" + compName + "' AND cant >= 1"; //Aqui es en donde se establece que celda (o que objeto) va a ser "vendido",    //
+            String editar = "UPDATE inventario_smartmart SET inventario = inventario - 1 WHERE descripcion = '" + compName + "' AND inventario >= 1"; //Aqui es en donde se establece que celda (o que objeto) va a ser "vendido",    //
             BD.sentencia = BD.conectar.prepareStatement(editar);                                            //asi que elimina directamente de la cantidad que hay                           //                                                                                                     //                                                                                              //
             BD.sentencia.executeUpdate();                                                                   //                                                                              //
             //----------------------------------------------------------------------------------------------//                                                                              //
@@ -138,10 +138,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         txaInventario = new javax.swing.JTextArea();
         btnPanini = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mnuExit = new javax.swing.JMenu();
         mnuInventario = new javax.swing.JMenu();
         mnuBtnConInv = new javax.swing.JMenu();
         mnuBtnEditInv = new javax.swing.JMenu();
+        mnuExit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,14 +163,6 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        mnuExit.setText("Exit");
-        mnuExit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mnuExitMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(mnuExit);
-
         mnuInventario.setText("Inventario");
 
         mnuBtnConInv.setText("Consultar Inventario");
@@ -186,6 +178,14 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuInventario);
 
+        mnuExit.setText("Salir");
+        mnuExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuExitMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnuExit);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -197,7 +197,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(596, Short.MAX_VALUE))
+                .addContainerGap(593, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(258, 258, 258)
@@ -238,7 +238,16 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuExitMouseClicked
 
     private void mnuBtnConInvMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuBtnConInvMouseClicked
+        this.setEnabled(false);
         frmbd.setVisible(true);
+        
+        frmbd.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+            // Volver a habilitar el formulario principal cuando se cierre el formulario secundario
+            frmPrincipal.this.setEnabled(true);
+        }
+    });
     }//GEN-LAST:event_mnuBtnConInvMouseClicked
 
     public static void main(String args[]) {

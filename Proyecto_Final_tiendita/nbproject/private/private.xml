@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/sergi/Documents/NetBeansProjects/Proyecto_Final_tiendita/src/proyecto_final_tiendita/conexionBD.java</file>
-            <file>file:/C:/Users/sergi/Documents/NetBeansProjects/Proyecto_Final_tiendita/src/proyecto_final_tiendita/frmPrincipal.java</file>
+            <file>file:/C:/Users/Josep/Documents/NetBeansProjects/ProyectoFinal_SmartMart-main/Proyecto_Final_tiendita/src/proyecto_final_tiendita/frmBD.java</file>
+            <file>file:/C:/Users/Josep/Documents/NetBeansProjects/ProyectoFinal_SmartMart-main/Proyecto_Final_tiendita/src/proyecto_final_tiendita/frmEliminar.java</file>
+            <file>file:/C:/Users/Josep/Documents/NetBeansProjects/ProyectoFinal_SmartMart-main/Proyecto_Final_tiendita/src/proyecto_final_tiendita/frmPrincipal.java</file>
+            <file>file:/C:/Users/Josep/Documents/NetBeansProjects/ProyectoFinal_SmartMart-main/Proyecto_Final_tiendita/src/proyecto_final_tiendita/frmAgregarArticulo.java</file>
+            <file>file:/C:/Users/Josep/Documents/NetBeansProjects/ProyectoFinal_SmartMart-main/Proyecto_Final_tiendita/src/proyecto_final_tiendita/conexionBD.java</file>
+            <file>file:/C:/Users/Josep/Documents/NetBeansProjects/ProyectoFinal_SmartMart-main/Proyecto_Final_tiendita/src/proyecto_final_tiendita/frmAgregar.java</file>
         </group>
     </open-files>
 </project-private>
